@@ -25,8 +25,7 @@ public class EditorWordSearch : Editor
 
     public void OnEnable()
     {
-        showBoard = comp.GetBoardData().GetBoardAsMatrix();
-        Debug.Log(comp.GetBoardData().GetBoardAsMatrix());
+        showBoard = comp.GetBoard();
 
         so = new SerializedObject(comp);
         words = so.FindProperty("words");

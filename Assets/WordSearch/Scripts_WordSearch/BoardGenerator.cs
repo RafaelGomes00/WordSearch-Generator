@@ -27,7 +27,7 @@ public static class BoardGenerator
             if (placed) placedWords.Add(word);
         }
 
-        BoardData boardData = new BoardData(board, placedWords);
+        BoardData boardData = new BoardData(board, placedWords.ToArray());
         if (autoFill) boardData.FillBoard();
 
         return boardData;

@@ -7,7 +7,7 @@ using UnityEngine;
 public class BoardData
 {
     private string[,] board;
-    private List<string> words;
+    private string[] words;
 
     private bool _initialized;
 
@@ -16,7 +16,7 @@ public class BoardData
         _initialized = false;
     }
 
-    public BoardData(string[,] board, List<string> words)
+    public BoardData(string[,] board, string[] words)
     {
         this.board = board;
         this.words = words;
@@ -44,11 +44,10 @@ public class BoardData
 
     public int GetSize()
     {
-        Debug.Log("Size " + board.GetLength(0));
         return board.GetLength(0);
     }
 
-    public List<string> GetWords()
+    public string[] GetWords()
     {
         return words;
     }

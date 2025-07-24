@@ -1,6 +1,7 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using Unity.VisualScripting;
 using UnityEditor;
 using UnityEngine;
 
@@ -69,11 +70,12 @@ public class WindowEditor : EditorWindow
             board.FillBoard();
         }
 
+        GUI.enabled = board.isInitialized();
         if (GUILayout.Button("Save board"))
         {
-
             SaveBoard();
         }
+        GUI.enabled = true;
 
         UpdatePreview();
         so.ApplyModifiedProperties();
@@ -83,15 +85,18 @@ public class WindowEditor : EditorWindow
     private void SaveBoard()
     {
         string absPath = System.IO.Path.Combine(EditorUtility.SaveFilePanel("Select Directory", "Assets", "New board", "asset"));
-        string relPath = absPath.Substring(absPath.IndexOf("Assets/"));
 
-        InfoHolder infoHolder = ScriptableObject.CreateInstance<InfoHolder>();
+        if (absPath.Length != 0)
+        {
+            string relPath = absPath.Substring(absPath.IndexOf("Assets/"));
 
-        Debug.Log(board.isInitialized());
-        infoHolder.InitializeData(board);
+            InfoHolder infoHolder = ScriptableObject.CreateInstance<InfoHolder>();
 
-        AssetDatabase.CreateAsset(infoHolder, relPath);
-        AssetDatabase.SaveAssets();
+            infoHolder.InitializeData(board);
+
+            AssetDatabase.CreateAsset(infoHolder, relPath);
+            AssetDatabase.SaveAssets();
+        }
     }
 
     private void UpdatePreview()
@@ -115,7 +120,7 @@ public class WindowEditor : EditorWindow
                         if (i >= 0 && j >= 0)
                         {
                             EditorGUILayout.BeginHorizontal(rowStyle);
-                            if (board.CheckNull(i,j))
+                            if (board.CheckNull(i, j))
                                 EditorGUILayout.Space(30);
                             else
                                 EditorGUILayout.LabelField(board.GetLetterAt(i, j).ToUpper(), textFieldStyle, GUILayout.Width(25));

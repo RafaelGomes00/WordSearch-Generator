@@ -9,19 +9,18 @@ using UnityEngine;
 
 public class InfoHolder : ScriptableObject
 {
-    [SerializeField] private List<string> board;
     [SerializeField] private int size;
     [SerializeField] private bool canHaveReverseWords;
     [SerializeField] private string[] words;
-
-    private BoardData boardData;
-    
+    [SerializeField] private List<string> board;
 
     public void InitializeData(BoardData boardData)
     {
-        this.boardData = boardData;
+        string[,] matrixBoard = boardData.GetBoardAsMatrix();
+        size = matrixBoard.GetLength(0);
+        ResetBoardData(matrixBoard);
 
-        ResetBoardData(boardData.GetBoardAsMatrix());
+        board = boardData.GetBoardAsList();
         words = boardData.GetWords().ToArray();
 
         EditorUtility.SetDirty(this);
@@ -36,19 +35,19 @@ public class InfoHolder : ScriptableObject
         {
             for (int y = 0; y < size; y++)
             {
-                board.Add(refBoard[x,y]);
+                board.Add(refBoard[x, y]);
             }
         }
     }
 
-    public List<string> GetBoard()
+    public string[,] GetBoard()
     {
-        return board;
+        return TransformBoard(board);
     }
 
     public BoardData GetBoardData()
     {
-        return boardData;
+        return new BoardData(TransformBoard(board), words);
     }
 
     public int GetSize()
@@ -61,8 +60,25 @@ public class InfoHolder : ScriptableObject
         return canHaveReverseWords;
     }
 
-    public IEnumerable<string> GetWords()
+    public string[] GetWords()
     {
         return words;
+    }
+
+    private string[,] TransformBoard(List<string> board)
+    {
+        string[,] newShowBoard = new string[size, size];
+        int index = 0;
+
+        for (int x = 0; x < size; x++)
+        {
+            for (int y = 0; y < size; y++)
+            {
+                newShowBoard[x, y] = board[index];
+                index++;
+            }
+        }
+
+        return newShowBoard;
     }
 }

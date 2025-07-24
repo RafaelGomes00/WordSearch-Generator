@@ -416,6 +416,8 @@ MonoBehaviour:
   gridLayoutGroup: {fileID: 302216032}
   textObj: {fileID: 2570903137652260634, guid: bde03dc73089ab14aa23770a300301e9, type: 3}
   textObjParent: {fileID: 11171199}
+  useStaticBoard: 0
+  infoH: {fileID: 11400000, guid: 115427bd54cd48f438279dc6a93db5c3, type: 2}
   words:
   - Curtain
   - Sunday
