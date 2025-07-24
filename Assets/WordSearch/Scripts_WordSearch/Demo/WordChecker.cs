@@ -8,62 +8,25 @@ using UnityEngine.UI;
 
 public class WordChecker : MonoBehaviour
 {
-    [SerializeField] private WordSearchSorter wordSearchSorter;
     [SerializeField] private Transform lineParent;
     [SerializeField] private LineRenderer lineRenderer;
     [SerializeField] private GridLayoutGroup gridLayoutGroup;
-    [SerializeField] private GameObject textObj;
-    [SerializeField] private Transform textObjParent;
-
-    [Header("Static board")]
-    [SerializeField] bool useStaticBoard;
-    [SerializeField] private InfoHolder infoH;
-
-    [Header("Dinamic board")]
-    [SerializeField] private List<string> words;
-    [SerializeField] private bool canHaveReverseWords;
-    [SerializeField] private int size;
-
 
     private int assignedPoints = 0;
-
     private Ray currentRay;
     private Vector3 rayStartPosition;
-
     Letter firstSelectedLetter;
 
     private List<Letter> selectedLettersList = new List<Letter>();
-    // private List<Letter> correctLettersList = new List<Letter>();
+    private List<LineRenderer> lines = new List<LineRenderer>();
     private Dictionary<string, TextMeshProUGUI> wordToTextRelation = new Dictionary<string, TextMeshProUGUI>();
     private bool invalidRay;
 
-    public void OnEnable()
+    private void OnEnable()
     {
         GameEvents.OnCheckSquare += SquareSelected;
         GameEvents.OnClearSelection += ClearSelection;
         GameEvents.OnMouseOver += OnMouseOver;
-    }
-
-
-    private void Start()
-    {
-        BoardData boardData = BoardGenerator.CreateWordSearch(words.ToArray(), size, canHaveReverseWords);
-
-        if (useStaticBoard)
-        {
-            boardData = infoH.GetBoardData();
-        }
-
-        wordSearchSorter.InitializeLetters(boardData.GetBoardAsList());
-        gridLayoutGroup.constraintCount = boardData.GetSize();
-        
-        foreach (string word in boardData.GetWords())
-        {
-            GameObject obj = Instantiate(textObj, textObjParent);
-            TextMeshProUGUI txt = obj.GetComponent<TextMeshProUGUI>();
-            txt.text = word;
-            wordToTextRelation.Add(word.ToUpper(), txt);
-        }
     }
 
     private void Update()
@@ -72,6 +35,27 @@ public class WordChecker : MonoBehaviour
         {
             Debug.DrawRay(currentRay.origin, currentRay.direction * 1000f, Color.black);
         }
+    }
+
+    public void SetWordToTextRelation(Dictionary<string, TextMeshProUGUI> wordToTextRelation)
+    {
+        this.wordToTextRelation = wordToTextRelation;
+    }
+
+    public void Reset()
+    {
+        assignedPoints = 0;
+        currentRay = new Ray();
+        rayStartPosition = new Vector3();
+        firstSelectedLetter = null;
+        selectedLettersList = new List<Letter>();
+        wordToTextRelation = new Dictionary<string, TextMeshProUGUI>();
+
+        foreach (LineRenderer line in lines)
+        {
+            Destroy(line.gameObject);
+        }
+        lines.Clear();
     }
 
     private bool SquareSelected(string letter, Vector3 position, Letter letterRef)
@@ -200,15 +184,17 @@ public class WordChecker : MonoBehaviour
             Debug.Log($"Found word {word}");
             foreach (Letter letterRef in selectedLettersList)
             {
-                // correctLettersList.Add(letterRef);
                 letterRef.SetCorrect();
             }
-            Instantiate(lineRenderer, lineParent).SetPositions(new Vector3[] {
+
+            LineRenderer line = Instantiate(lineRenderer, lineParent);
+            line.SetPositions(new Vector3[] {
                         selectedLettersList[0].transform.localPosition,
                         selectedLettersList[selectedLettersList.Count - 1].transform.localPosition
                         });
+            lines.Add(line);
+
             wordToTextRelation[word].fontStyle = FontStyles.Strikethrough;
-            wordToTextRelation.Remove(word);
         }
     }
 
@@ -245,7 +231,7 @@ public class WordChecker : MonoBehaviour
         return false;
     }
 
-    public void OnDisable()
+    private void OnDisable()
     {
         GameEvents.OnCheckSquare -= SquareSelected;
         GameEvents.OnClearSelection -= ClearSelection;
