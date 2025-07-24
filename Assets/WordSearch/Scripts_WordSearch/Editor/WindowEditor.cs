@@ -18,10 +18,9 @@ public class WindowEditor : EditorWindow
 
     private int size;
     private bool canHaveReverseWords;
-    private List<string> addedWords;
     [SerializeField] private string[] words;
 
-    private string[,] board;
+    private BoardData board;
     private bool fillBoardAutomatically;
 
 
@@ -36,7 +35,7 @@ public class WindowEditor : EditorWindow
         target = this;
         so = new SerializedObject(target);
         wordsSP = so.FindProperty("words");
-        board = new string[1, 1];
+        board = new BoardData();
         fillBoardAutomatically = true;
         size = 10;
 
@@ -60,15 +59,14 @@ public class WindowEditor : EditorWindow
 
         if (GUILayout.Button("Generate"))
         {
-            addedWords = new List<string>();
-            board = BoardGenerator.CreateWordSearch(words, size, canHaveReverseWords, out addedWords);
+            board = BoardGenerator.CreateWordSearch(words, size, canHaveReverseWords, fillBoardAutomatically);
             if (fillBoardAutomatically)
-                board = BoardGenerator.FillBoard(board, size);
+                board.FillBoard();
         }
 
         if (GUILayout.Button("Fill with random letters"))
         {
-            board = BoardGenerator.FillBoard(board, size);
+            board.FillBoard();
         }
 
         if (GUILayout.Button("Save board"))
@@ -89,7 +87,8 @@ public class WindowEditor : EditorWindow
 
         InfoHolder infoHolder = ScriptableObject.CreateInstance<InfoHolder>();
 
-        infoHolder.InitializeData(board, size, canHaveReverseWords, addedWords.ToArray());
+        Debug.Log(board.isInitialized());
+        infoHolder.InitializeData(board);
 
         AssetDatabase.CreateAsset(infoHolder, relPath);
         AssetDatabase.SaveAssets();
@@ -97,13 +96,13 @@ public class WindowEditor : EditorWindow
 
     private void UpdatePreview()
     {
-        if (board == null || board.GetLength(0) <= 0) return;
+        if (board == null || !board.isInitialized()) return;
         AddGridToLayout(board);
     }
 
-    private void AddGridToLayout(string[,] board)
+    private void AddGridToLayout(BoardData board)
     {
-        if (board.GetLength(0) >= size && board.GetLength(1) >= size)
+        if (board.GetSize() >= size && board.GetSize() >= size)
         {
             try
             {
@@ -116,10 +115,10 @@ public class WindowEditor : EditorWindow
                         if (i >= 0 && j >= 0)
                         {
                             EditorGUILayout.BeginHorizontal(rowStyle);
-                            if (string.IsNullOrEmpty(board[i, j]))
+                            if (board.CheckNull(i,j))
                                 EditorGUILayout.Space(30);
                             else
-                                EditorGUILayout.LabelField(board[i, j].ToUpper(), textFieldStyle, GUILayout.Width(25));
+                                EditorGUILayout.LabelField(board.GetLetterAt(i, j).ToUpper(), textFieldStyle, GUILayout.Width(25));
 
                             EditorGUILayout.EndHorizontal();
                         }

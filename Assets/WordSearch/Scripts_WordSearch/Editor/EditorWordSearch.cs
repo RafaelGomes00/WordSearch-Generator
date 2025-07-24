@@ -21,13 +21,12 @@ public class EditorWordSearch : Editor
     GUIStyle rowStyle;
     GUIStyle textFieldStyle;
 
-    List<string> board;
     string[,] showBoard;
 
     public void OnEnable()
     {
-        board = new List<string>();
-        showBoard = TransformBoard(comp.GetBoard());
+        showBoard = comp.GetBoardData().GetBoardAsMatrix();
+        Debug.Log(comp.GetBoardData().GetBoardAsMatrix());
 
         so = new SerializedObject(comp);
         words = so.FindProperty("words");
@@ -89,23 +88,6 @@ public class EditorWordSearch : Editor
             }
             EditorGUILayout.EndHorizontal();
         }
-    }
-
-    private string[,] TransformBoard(List<string> board)
-    {
-        string[,] newShowBoard = new string[comp.GetSize(), comp.GetSize()];
-        int index = 0;
-
-        for (int x = 0; x < comp.GetSize(); x++)
-        {
-            for (int y = 0; y < comp.GetSize(); y++)
-            {
-                newShowBoard[x, y] = board[index];
-                index++;
-            }
-        }
-
-        return newShowBoard;
     }
 
     private void SetGUIStyle()

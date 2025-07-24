@@ -14,12 +14,15 @@ public class InfoHolder : ScriptableObject
     [SerializeField] private bool canHaveReverseWords;
     [SerializeField] private string[] words;
 
-    public void InitializeData(string[,] board, int size, bool canHaveReverseWords, string[] words)
+    private BoardData boardData;
+    
+
+    public void InitializeData(BoardData boardData)
     {
-        this.size = size;
-        this.canHaveReverseWords = canHaveReverseWords;
-        this.words = words;
-        ResetBoardData(board);
+        this.boardData = boardData;
+
+        ResetBoardData(boardData.GetBoardAsMatrix());
+        words = boardData.GetWords().ToArray();
 
         EditorUtility.SetDirty(this);
         AssetDatabase.SaveAssets();
@@ -41,6 +44,11 @@ public class InfoHolder : ScriptableObject
     public List<string> GetBoard()
     {
         return board;
+    }
+
+    public BoardData GetBoardData()
+    {
+        return boardData;
     }
 
     public int GetSize()

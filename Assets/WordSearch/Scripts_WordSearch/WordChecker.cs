@@ -9,12 +9,20 @@ using UnityEngine.UI;
 public class WordChecker : MonoBehaviour
 {
     [SerializeField] private WordSearchSorter wordSearchSorter;
-    [SerializeField] private InfoHolder infoH;
     [SerializeField] private Transform lineParent;
     [SerializeField] private LineRenderer lineRenderer;
     [SerializeField] private GridLayoutGroup gridLayoutGroup;
     [SerializeField] private GameObject textObj;
     [SerializeField] private Transform textObjParent;
+
+    [Header("Static board")]
+    [SerializeField] bool useStaticBoard;
+    [SerializeField] private InfoHolder infoH;
+
+    [Header("Dinamic board")]
+    [SerializeField] private List<string> words;
+    [SerializeField] private bool canHaveReverseWords;
+    [SerializeField] private int size;
 
 
     private int assignedPoints = 0;
@@ -39,10 +47,17 @@ public class WordChecker : MonoBehaviour
 
     private void Start()
     {
-        wordSearchSorter.InitializeLetters(infoH.GetBoard());
-        gridLayoutGroup.constraintCount = infoH.GetSize();
+        BoardData boardData = BoardGenerator.CreateWordSearch(words.ToArray(), size, canHaveReverseWords);
+
+        if (useStaticBoard)
+        {
+            boardData = infoH.GetBoardData();
+        }
+
+        wordSearchSorter.InitializeLetters(boardData.GetBoardAsList());
+        gridLayoutGroup.constraintCount = boardData.GetSize();
         
-        foreach (string word in infoH.GetWords())
+        foreach (string word in boardData.GetWords())
         {
             GameObject obj = Instantiate(textObj, textObjParent);
             TextMeshProUGUI txt = obj.GetComponent<TextMeshProUGUI>();
