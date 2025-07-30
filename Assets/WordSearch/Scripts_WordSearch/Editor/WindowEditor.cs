@@ -70,6 +70,13 @@ public class WindowEditor : EditorWindow
             board.FillBoard();
         }
 
+        EditorGUILayout.Space(10);
+
+        if (GUILayout.Button("Copy info from board"))
+        {
+            CopyInfo();
+        }
+
         GUI.enabled = board.isInitialized();
         if (GUILayout.Button("Save board"))
         {
@@ -80,6 +87,21 @@ public class WindowEditor : EditorWindow
         UpdatePreview();
         so.ApplyModifiedProperties();
         EditorUtility.SetDirty(target);
+    }
+
+    private void CopyInfo()
+    {
+        string absPath = EditorUtility.OpenFilePanel("Load asset", "", "asset");
+        string relPath = absPath.Substring(absPath.IndexOf("Assets/"));
+
+        InfoHolder copiedInfo = (InfoHolder)AssetDatabase.LoadAssetAtPath(relPath, typeof(InfoHolder));
+
+        this.size = copiedInfo.GetSize();
+        this.words = copiedInfo.GetWords();
+        this.board = copiedInfo.GetBoardData();
+        this.canHaveReverseWords = copiedInfo.GetReverseWords();
+
+        so.Update();
     }
 
     private void SaveBoard()
