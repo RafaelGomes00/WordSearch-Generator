@@ -3,7 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class GameEvents : MonoBehaviour
+public class GameEvents
 {
     public delegate void EnableSquareSelection();
     public static event EnableSquareSelection OnEnableSquareSelection;
@@ -40,10 +40,10 @@ public class GameEvents : MonoBehaviour
         OnClearSelection.Invoke();
     }
 
-    public delegate void MouseOver(Letter letterRef);
-    public static event MouseOver OnMouseOver;
+    public delegate void MouseOverLetter(Letter letterRef);
+    public static event MouseOverLetter OnMouseOverLetter;
     public static void MouseOverMethod(Letter letterRef)
     {
-        OnMouseOver?.Invoke(letterRef);
+        OnMouseOverLetter?.Invoke(letterRef);
     }
 }

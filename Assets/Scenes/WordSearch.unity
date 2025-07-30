@@ -469,8 +469,8 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 0}
-        m_TargetAssemblyTypeName: WordChecker, Assembly-CSharp
+      - m_Target: {fileID: 742882405}
+        m_TargetAssemblyTypeName: BoardDisplayer, Assembly-CSharp
         m_MethodName: ResetBoard
         m_Mode: 1
         m_Arguments:
@@ -699,7 +699,7 @@ MonoBehaviour:
   gridLayoutGroup: {fileID: 302216032}
   wordChecker: {fileID: 988297193}
   useStaticBoard: 0
-  infoH: {fileID: 0}
+  infoH: {fileID: 11400000, guid: 115427bd54cd48f438279dc6a93db5c3, type: 2}
   words:
   - Curtain
   - Sunday
@@ -709,7 +709,7 @@ MonoBehaviour:
   - Fade
   - Shallow
   - Silence
-  canHaveReverseWords: 0
+  canHaveReverseWords: 1
   size: 10
 --- !u!1 &797713986
 GameObject:
@@ -720,7 +720,6 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 797713988}
-  - component: {fileID: 797713989}
   m_Layer: 0
   m_Name: Scripts
   m_TagString: Untagged
@@ -747,20 +746,6 @@ Transform:
   - {fileID: 975528383}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &797713989
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 797713986}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 41d590f7f253d084fb5ee75c5511a069, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  letterGO: {fileID: 6342955426981781505, guid: 0527ddb12bda5be4383d83abfd5a9e53, type: 3}
-  letterParent: {fileID: 302216029}
 --- !u!1 &963194225
 GameObject:
   m_ObjectHideFlags: 0
@@ -968,19 +953,6 @@ MonoBehaviour:
   lineParent: {fileID: 6514293189113687768}
   lineRenderer: {fileID: 6706678477096932792, guid: de1944796a2be76489ebdb5e5b6f54d6, type: 3}
   gridLayoutGroup: {fileID: 302216032}
-  useStaticBoard: 0
-  infoH: {fileID: 11400000, guid: 115427bd54cd48f438279dc6a93db5c3, type: 2}
-  words:
-  - Curtain
-  - Sunday
-  - Poem
-  - Paragraph
-  - Triangle
-  - Fade
-  - Shallow
-  - Silence
-  canHaveReverseWords: 0
-  size: 10
 --- !u!1 &1275698171
 GameObject:
   m_ObjectHideFlags: 0

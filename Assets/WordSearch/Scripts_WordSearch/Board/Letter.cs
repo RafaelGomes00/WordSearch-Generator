@@ -119,7 +119,7 @@ public class Letter : MonoBehaviour
         GameEvents.DisableSquareSelectionMethod();
     }
 
-    public void UnselectWord()
+    public void Unselect()
     {
         OnDisableSquareSelection();
     }
