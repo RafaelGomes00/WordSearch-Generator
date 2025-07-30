@@ -9,7 +9,7 @@ public static class BoardGenerator
     {
         List<string> placedWords = new List<string>();
 
-        if (words.Length < 1)
+        if (words == null || words.Length < 1)
         {
             Debug.LogError("No words given");
             return new BoardData();

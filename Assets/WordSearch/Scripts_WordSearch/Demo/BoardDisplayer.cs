@@ -17,7 +17,7 @@ public class BoardDisplayer : MonoBehaviour
     [SerializeField] bool useStaticBoard;
     [SerializeField] private InfoHolder infoH;
 
-    [Header("Dinamic board")]
+    [Header("Dynamic board")]
     [SerializeField] private List<string> words;
     [SerializeField] private bool canHaveReverseWords;
     [SerializeField] private int size;
