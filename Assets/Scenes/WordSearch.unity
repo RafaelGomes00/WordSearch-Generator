@@ -239,10 +239,10 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_Padding:
-    m_Left: 0
-    m_Right: 0
-    m_Top: 0
-    m_Bottom: 0
+    m_Left: 20
+    m_Right: 20
+    m_Top: 20
+    m_Bottom: 20
   m_ChildAlignment: 4
   m_StartCorner: 0
   m_StartAxis: 1
@@ -952,7 +952,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   lineParent: {fileID: 6514293189113687768}
   lineRenderer: {fileID: 6706678477096932792, guid: de1944796a2be76489ebdb5e5b6f54d6, type: 3}
-  gridLayoutGroup: {fileID: 302216032}
 --- !u!1 &1275698171
 GameObject:
   m_ObjectHideFlags: 0
@@ -1176,6 +1175,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   letterGO: {fileID: 6342955426981781505, guid: 0527ddb12bda5be4383d83abfd5a9e53, type: 3}
   letterParent: {fileID: 302216029}
+  gridLayoutGroup: {fileID: 302216032}
 --- !u!1 &1938309594
 GameObject:
   m_ObjectHideFlags: 0

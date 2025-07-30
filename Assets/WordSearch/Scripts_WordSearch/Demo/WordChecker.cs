@@ -1,16 +1,11 @@
-using System;
-using System.Collections;
 using System.Collections.Generic;
-using System.Linq;
 using TMPro;
 using UnityEngine;
-using UnityEngine.UI;
 
 public class WordChecker : MonoBehaviour
 {
     [SerializeField] private Transform lineParent;
     [SerializeField] private LineRenderer lineRenderer;
-    [SerializeField] private GridLayoutGroup gridLayoutGroup;
 
     private int assignedPoints = 0;
     private Ray currentRay;
@@ -90,6 +85,8 @@ public class WordChecker : MonoBehaviour
             CheckEmptySpace(currentRay, letterRef);
         }
 
+        Debug.DrawRay(firstSelectedLetter.transform.position, currentRay.direction, Color.black, 2f);
+
         return selected;
     }
 
@@ -98,16 +95,6 @@ public class WordChecker : MonoBehaviour
         UnselectAllLeters();
         AddToSelected(firstSelectedLetter);
         firstSelectedLetter.ForceSelectSquare();
-    }
-
-    private bool CheckNeighbourLetter(Letter firstSelectedLetter, Letter letterRef)
-    {
-        if (firstSelectedLetter.index + 1 == letterRef.index) return true; // Right -> Left
-        else if (firstSelectedLetter.index - gridLayoutGroup.constraintCount == letterRef.index) return true; // Up -> Down
-        else if (firstSelectedLetter.index + gridLayoutGroup.constraintCount == letterRef.index) return true; //Down -> Up       
-        else if (firstSelectedLetter.index - gridLayoutGroup.constraintCount + 1 == letterRef.index) return true; //Diagonal Up
-        else if (firstSelectedLetter.index + gridLayoutGroup.constraintCount + 1 == letterRef.index) return true;  //Diagonal down
-        return false;
     }
 
     private void AddToSelected(Letter letterRef)
