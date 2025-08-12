@@ -705,11 +705,13 @@ MonoBehaviour:
   - Sunday
   - Poem
   - Paragraph
-  - Triangle
-  - Fade
+  - Computer
+  - Desk
+  - Bottle
+  - City
   - Shallow
-  - Silence
-  canHaveReverseWords: 1
+  - Words
+  canHaveReverseWords: 0
   size: 10
 --- !u!1 &797713986
 GameObject:

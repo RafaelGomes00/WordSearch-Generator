@@ -45,11 +45,15 @@ public class BoardDisplayer : MonoBehaviour
 
     public void CreateBoard()
     {
-        BoardData boardData = BoardGenerator.CreateWordSearch(words.ToArray(), size, canHaveReverseWords);
+        BoardData boardData;
 
         if (useStaticBoard)
         {
             boardData = board.GetBoardData();
+        }
+        else
+        {
+            boardData = BoardGenerator.CreateWordSearch(words.ToArray(), size, canHaveReverseWords);
         }
 
         wordSearchSorter.InitializeLetters(boardData.GetBoardAsList());

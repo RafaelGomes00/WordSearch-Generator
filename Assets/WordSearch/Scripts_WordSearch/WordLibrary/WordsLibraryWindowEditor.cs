@@ -3,7 +3,6 @@ using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using UnityEditor;
-using UnityEditor.Callbacks;
 using UnityEngine;
 
 public class WordsLibraryWindowEditor : EditorWindow
@@ -24,13 +23,6 @@ public class WordsLibraryWindowEditor : EditorWindow
     public static void ShowWindow()
     {
         EditorWindow.GetWindow(typeof(WordsLibraryWindowEditor), false, "Words library");
-    }
-
-    [DidReloadScripts]
-    private static void OnScriptsReloaded()
-    {
-        if (EditorWindow.focusedWindow.GetType() == typeof(WordsLibraryWindowEditor))
-            EditorWindow.GetWindow<WordsLibraryWindowEditor>().UpdateWords();
     }
 
     public void OnEnable()
