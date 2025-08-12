@@ -5,24 +5,17 @@ using UnityEngine;
 
 public static class BoardGenerator
 {
-    public static string[,] CreateWordSearch(string[] words, int size, bool canHaveReverseWords)
+    public static BoardData CreateWordSearch(string[] words, int size, bool canHaveReverseWords, bool autoFill = true)
     {
-        List<string> disposableList = new List<string>();
-        return CreateWordSearch(words, size, canHaveReverseWords, out disposableList);
-    }
+        List<string> placedWords = new List<string>();
 
-    public static string[,] CreateWordSearch(string[] words, int size, bool canHaveReverseWords, out List<string> placedWords)
-    {
-        string[,] board = new string[size, size];
-        placedWords = new List<string>();
-
-        if (words.Length < 1)
+        if (words == null || words.Length < 1)
         {
             Debug.LogError("No words given");
-            return new string[1, 1];
+            return new BoardData();
         }
 
-        board = new string[size, size];
+        string[,] board = new string[size, size];
 
         for (int x = 0; x < size; x++)
             for (int y = 0; y < size; y++)
@@ -34,7 +27,10 @@ public static class BoardGenerator
             if (placed) placedWords.Add(word);
         }
 
-        return board;
+        BoardData boardData = new BoardData(board, placedWords.ToArray());
+        if (autoFill) boardData.FillBoard();
+
+        return boardData;
     }
 
     public static bool PlaceWord(string[,] board, string word, int size, bool canHaveReverseWords)
@@ -340,27 +336,5 @@ public static class BoardGenerator
     private static bool GenerateRandomBool()
     {
         return Random.Range(0, 100) < 50;
-    }
-
-    public static string[,] FillBoard(string[,] board, int size)
-    {
-        string[,] newBoard = board;
-
-        try
-        {
-            for (int x = 0; x < size; x++)
-            {
-                for (int y = 0; y < size; y++)
-                {
-                    if (newBoard[x, y] == " ") newBoard[x, y] = ((char)Random.Range(97, 123)).ToString().ToUpper();
-                }
-            }
-        }
-        catch (System.Exception)
-        {
-            Debug.LogError("Board was not initialized");
-        }
-
-        return newBoard;
     }
 }

@@ -10,6 +10,7 @@ public class Letter : MonoBehaviour
 {
     [SerializeField] TMPro.TextMeshProUGUI letterText;
     [SerializeField] Image image;
+    [SerializeField] BoxCollider col;
 
     private ColorType t;
 
@@ -42,7 +43,7 @@ public class Letter : MonoBehaviour
         correct = false;
     }
 
-    public void Initiate(string letter, int index)
+    public void Initialize(string letter, int index)
     {
         this.index = index;
         this.letter = letter;
@@ -119,7 +120,7 @@ public class Letter : MonoBehaviour
         GameEvents.DisableSquareSelectionMethod();
     }
 
-    public void UnselectWord()
+    public void Unselect()
     {
         OnDisableSquareSelection();
     }
@@ -151,8 +152,13 @@ public class Letter : MonoBehaviour
         ChangeSelectedColor(ColorType.Correct);
     }
 
-    internal string GetLetter()
+    public string GetLetter()
     {
         return letter;
+    }
+
+    public void SetColliderSize(Vector2 size)
+    {
+        col.size = size;
     }
 }

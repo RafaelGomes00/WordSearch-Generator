@@ -5,12 +5,12 @@ using System;
 using UnityEngine.UIElements;
 using System.Collections.Generic;
 
-[CustomEditor(typeof(InfoHolder), false)]
+[CustomEditor(typeof(BoardHolder), false)]
 [CanEditMultipleObjects]
 [System.Serializable]
 public class EditorWordSearch : Editor
 {
-    private InfoHolder comp => target as InfoHolder;
+    private BoardHolder comp => target as BoardHolder;
 
     SerializedObject so;
     SerializedProperty words;
@@ -21,13 +21,11 @@ public class EditorWordSearch : Editor
     GUIStyle rowStyle;
     GUIStyle textFieldStyle;
 
-    List<string> board;
     string[,] showBoard;
 
     public void OnEnable()
     {
-        board = new List<string>();
-        showBoard = TransformBoard(comp.GetBoard());
+        showBoard = comp.GetBoard();
 
         so = new SerializedObject(comp);
         words = so.FindProperty("words");
@@ -89,23 +87,6 @@ public class EditorWordSearch : Editor
             }
             EditorGUILayout.EndHorizontal();
         }
-    }
-
-    private string[,] TransformBoard(List<string> board)
-    {
-        string[,] newShowBoard = new string[comp.GetSize(), comp.GetSize()];
-        int index = 0;
-
-        for (int x = 0; x < comp.GetSize(); x++)
-        {
-            for (int y = 0; y < comp.GetSize(); y++)
-            {
-                newShowBoard[x, y] = board[index];
-                index++;
-            }
-        }
-
-        return newShowBoard;
     }
 
     private void SetGUIStyle()
