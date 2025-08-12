@@ -7,7 +7,7 @@ using Unity.VisualScripting;
 using UnityEditor;
 using UnityEngine;
 
-public class InfoHolder : ScriptableObject
+public class BoardHolder : ScriptableObject
 {
     [SerializeField] private int size;
     [SerializeField] private bool canHaveReverseWords;

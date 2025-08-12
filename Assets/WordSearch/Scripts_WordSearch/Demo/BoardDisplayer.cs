@@ -15,7 +15,7 @@ public class BoardDisplayer : MonoBehaviour
 
     [Header("Static board")]
     [SerializeField] bool useStaticBoard;
-    [SerializeField] private InfoHolder infoH;
+    [SerializeField] private BoardHolder board;
 
     [Header("Dynamic board")]
     [SerializeField] private List<string> words;
@@ -49,7 +49,7 @@ public class BoardDisplayer : MonoBehaviour
 
         if (useStaticBoard)
         {
-            boardData = infoH.GetBoardData();
+            boardData = board.GetBoardData();
         }
 
         wordSearchSorter.InitializeLetters(boardData.GetBoardAsList());

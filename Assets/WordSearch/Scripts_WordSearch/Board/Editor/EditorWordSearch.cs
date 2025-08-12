@@ -5,12 +5,12 @@ using System;
 using UnityEngine.UIElements;
 using System.Collections.Generic;
 
-[CustomEditor(typeof(InfoHolder), false)]
+[CustomEditor(typeof(BoardHolder), false)]
 [CanEditMultipleObjects]
 [System.Serializable]
 public class EditorWordSearch : Editor
 {
-    private InfoHolder comp => target as InfoHolder;
+    private BoardHolder comp => target as BoardHolder;
 
     SerializedObject so;
     SerializedProperty words;
