@@ -4,7 +4,6 @@ using System.Linq;
 using System;
 using UnityEngine;
 using UnityEditor;
-using UnityEditor.Callbacks;
 
 public class WindowEditor : EditorWindow
 {
@@ -52,22 +51,6 @@ public class WindowEditor : EditorWindow
 
         SetGUIStyle();
         UpdatePreview();
-    }
-
-    [DidReloadScripts]
-    private static void OnScriptsReloaded()
-    {
-        EditorWindow.GetWindow<WindowEditor>().ReloadBoard();
-    }
-
-    private void ReloadBoard()
-    {
-        this.size = board.GetSize();
-        this.words = board.GetWords();
-
-        UpdatePreview();
-
-        so.Update();
     }
 
     public void OnGUI()
@@ -161,6 +144,7 @@ public class WindowEditor : EditorWindow
 
     private List<string> GetWords(TextAsset textFile, int wordsQuantity_Library, int maxWordSize_Library, int minWordSize_Library)
     {
+        if (words == null) words = new string[0];
         List<string> possibleWords = GetPossibleWords(textFile, words, maxWordSize_Library, minWordSize_Library);
         if (possibleWords.Count < wordsQuantity_Library) return possibleWords;
 

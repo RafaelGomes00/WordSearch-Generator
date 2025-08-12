@@ -29,7 +29,8 @@ public class WordsLibraryWindowEditor : EditorWindow
     [DidReloadScripts]
     private static void OnScriptsReloaded()
     {
-        EditorWindow.GetWindow<WordsLibraryWindowEditor>().UpdateWords();
+        if (EditorWindow.focusedWindow.GetType() == typeof(WordsLibraryWindowEditor))
+            EditorWindow.GetWindow<WordsLibraryWindowEditor>().UpdateWords();
     }
 
     public void OnEnable()
